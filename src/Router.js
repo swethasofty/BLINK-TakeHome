@@ -13,7 +13,8 @@ class RouterApp extends Component {
       <Router history={history}>
         <Switch>
          <Route exact path="/" component={Drugs} />
-          <Route path="/drugs/:drug_name?/:rxcui?/:synonym?" component={DrugsDetails} />
+         <Route path="/drugs/:name?" component={DrugsDetails} />
+          {/* <Route path="/drugs/:drug_name?/:rxcui?/:synonym?" component={DrugsDetails} /> */}
           </Switch>
       </Router>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import 'antd/dist/antd.css';
-import { Layout, Breadcrumb,Card } from 'antd';
+import { Layout, Breadcrumb,Card} from 'antd';
 import axios  from 'axios';
 
 const {Content} = Layout;
@@ -46,6 +46,8 @@ componentDidMount(){
     }
      
     render() {
+        console.log(this.props.location)
+        const dataFromParent=this.props.location;
         return (
             <div>
                <Layout className="layout">
@@ -58,10 +60,10 @@ componentDidMount(){
                 <div style={{ background: '#fff', padding: 24, minHeight: 400 }}>
                    
                     <Card title="Name of drugs" >
-                    <h3>Name: {this.props.match.params.drug_name}</h3>
-                    <h3>Id: {this.props.match.params.rxcui}</h3>
-                    <h3>synonym: {this.props.match.params.synonym}</h3>
-                    </Card>
+                        <label><b>ID:</b>{dataFromParent.rxcui}</label><br/>
+                        <label><b>Name:</b> {dataFromParent.name}</label><br/>
+                        <label><b>Synonym:</b> {dataFromParent.synonym}</label>
+                    </Card>                           
                     <Card title="Associated NDCs">
                    {
                        this.state.list.map((nds) => <li key={nds}>{nds}</li>)

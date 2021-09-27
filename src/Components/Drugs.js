@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import 'antd/dist/antd.css';
 import { Layout, Breadcrumb,Input,List, Typography,Result} from 'antd';
-import {NavLink} from "react-router-dom"
+import {NavLink,Link} from "react-router-dom"
 import axios  from 'axios';
 import ContentLoader from "react-content-loader";
 
@@ -33,6 +33,7 @@ export default class Drugs extends Component {
                 isValidDrugs:false,
                 isSearchStarted:false,
                 isLoaded:false,
+                data:"testing Props",
                 drugs:{
                     name:"",
                     conceptGroup:[]
@@ -41,8 +42,6 @@ export default class Drugs extends Component {
                     suggestionList:{
                         suggestion:[]
                     },
-                    
-                
                 }
             }
     }
@@ -107,6 +106,7 @@ getDrugsSuggestions=(name)=>{
         });
 }
     render() {
+        console.log(this.state.suggestionList.suggestionList.suggestion)
         return (
             <div>
               <Layout className="layout">
@@ -116,7 +116,6 @@ getDrugsSuggestions=(name)=>{
                     <Breadcrumb.Item>Drugs Search</Breadcrumb.Item>
                     </Breadcrumb>
                     <div style={{ background: '#fff', padding: 24, minHeight: 420 }}>
-
                     <Search placeholder="Search for Drugs" onSearch={value => 
                         this.getDrugs(value)} enterButton />
                         { this.state.isValidDrugs &&
@@ -137,9 +136,19 @@ getDrugsSuggestions=(name)=>{
                                         dataSource={item.conceptProperties}
                                         renderItem={e => ( 
                                             <List.Item>
-                                                <NavLink to={`/drugs/${e.name}/${e.rxcui}/${e.synonym}`} className="nav-link">
+                                                {/* <NavLink to={`/drugs/${e.name}/${e.rxcui}/${e.synonym}`} className="nav-link">
                                                     <Typography.Text mark>{e.name}</Typography.Text>
-                                                </NavLink>
+                                                </NavLink> */}
+                                                <Link
+                                                to={{
+                                                    pathname: "/drugs"+`/${this.state.drugs.name}`,
+                                                    name: `${e.name}`,
+                                                    rxcui: `${e.rxcui}`,
+                                                    synonym:`${e.synonym}`
+                                                }}
+                                                params={{name: `${e.name}` }}>
+                                                    <Typography.Text mark>{e.name}</Typography.Text>
+                                                </Link>
                                                     {/* <Typography.Text >{e.tty}</Typography.Text>  */}
                                                 
                                             </List.Item>    
@@ -159,9 +168,19 @@ getDrugsSuggestions=(name)=>{
                         dataSource={this.state.suggestionList.suggestionList.suggestion}
                         renderItem={e => (                 
                         <List.Item>
-                            <NavLink to={`/drugs/${e}/${e.rxcui}/${e.synonym}`} className="nav-link">
+                            <Link
+                                to={{
+                                    pathname: "/drugs"+`/${e}`,
+                                    name: `${e}`,
+                                    rxcui: `${e.rxcui}`,
+                                    synonym:`${e.synonym}`
+                                }}
+                                params={{name: `${e.name}` }}>
+                                    <Typography.Text mark>{e}</Typography.Text>
+                            </Link>
+                            {/* <NavLink to={`/drugs/${e}/${e.rxcui}/${e.synonym}`} className="nav-link">
                             <Typography.Text mark>{e}</Typography.Text>
-                            </NavLink>
+                            </NavLink> */}
                             </List.Item>    
                         )}/>
                     </div>
